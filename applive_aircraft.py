@@ -111,7 +111,8 @@ body = dbc.Container(
                                         dbc.Col(dbc.Card(
                                                 [dbc.CardBody(html.P(id='hover-data')),
                                                 ], color='primary', inverse=True)),
-                                       ]
+                                     ], className="mt-3"
+
                                 ),
                          
                             
