@@ -1,0 +1,51 @@
+/** .js-plotly-plot .plotly .modebar {
+  padding-top: 5%;
+  margin-right: 3.5%;
+} 
+
+.row {
+  height: 600px;
+}
+
+**/
+
+
+body {
+  background-color: white;
+}
+
+
+.text-time{
+    font-size:2rem;
+    }
+
+
+.control_label {
+  margin: 0;
+  padding: 10px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  width: calc(100%-40px);
+}
+
+
+    }
+
+.bokkx {
+    flex:1 ;
+    border-radius: 5px;
+    margin: 8 px;
+    padding: 10px;
+    box-shadow: 2px 2px 2px lightgrey;
+    position: relative;
+      
+
+
+}
+
+.live-updatdfde-graph {
+  position: relative;
+  height: calc(100% - 30px);
+  width: calc(100% - 30px);
+}
+
