@@ -45,7 +45,7 @@ def get_flight_data(area):
    #b = df_aircraft.set_index('icao24')['typecode']
    #flight_df["Aircraft_model"] = flight_df["Aircraft_model"].replace(b)
 
-   flight_df['Velocity'] = flight_df['Velocity'].apply(lambda x: int(x*3.6))
+   flight_df['Velocity'] = flight_df['Velocity'].apply(lambda x: x*3,6)
 
 
    #print(flight_df.head())

@@ -3,7 +3,6 @@
 """
 Created on Tue Oct 15 21:08:21 2019
 
-@author: joshua
 """
 from datetime import datetime
 import dash
@@ -59,10 +58,13 @@ body = dbc.Container(
                                     [dbc.CardBody(    
                                             dcc.Graph(id='top-compagnies'),
                                     )],
-                                    className="mt-3 mb-3",
+                                    className="mt-3 mb-1 h-50",
                                     ),
                             dbc.Card(
+                                    [dbc.CardBody(
                                             dcc.Graph(id='top-origin-countries'),
+                                    )],
+                                    className="mt-3 mb-1 h-50"
                                     ),
                             
                     ], ### fin list col 1
@@ -75,7 +77,6 @@ body = dbc.Container(
                          # Hidden div inside the app that stores the intermediate value
                          html.Div(id='intermediate-value', style={'display': 'none'}),
                          html.H2("Graph"),
-                         html.Pre(id='hover-data'),
                          html.P("Filter by area :", className="control_label"),
                                     dcc.Dropdown(id='bbox-area',
                                     options=[
@@ -104,8 +105,15 @@ body = dbc.Container(
                                        
                                     ]
                                 ),
-                            
-                            
+                        ############### ligne 3 dans col de droite        
+                        dbc.Row(
+                                    [
+                                        dbc.Col(dbc.Card(
+                                                [dbc.CardBody(html.P(id='hover-data')),
+                                                ], color='primary', inverse=True)),
+                                       ]
+                                ),
+                         
                             
                     ], ### fin list col 2
                     className="col-8"
@@ -163,12 +171,15 @@ def update_dropdown(df_area):
     dico = {}
     result = []
     n = 0
-    while n < 10:
-            dico['label'] = str(options.index[n]) +' '+ str(options[n]) + ' aircrafts'
-            dico['value'] = options.index[n]
-            n = n + 1
-            result.append(dico.copy())
-    return result
+    try :
+        while n < 10:
+                dico['label'] = str(options.index[n]) +' '+ str(options[n]) + ' aircrafts'
+                dico['value'] = options.index[n]
+                n = n + 1
+                result.append(dico.copy())
+        return result
+    except :
+        return result
     
 
 # Multiple components can update everytime interval gets fired.
@@ -209,7 +220,7 @@ def update_graph_live(df_area, airline):
         'layout':go.Layout(
             #autosize=False,
             #width = 600,
-            #height = 450,
+            height = 300,
             margin=dict(l=10, r=30, b=20, t=20),
             hovermode='closest',
             plot_bgcolor="#F9F9F9",
@@ -237,6 +248,7 @@ def update_graph_live(df_area, airline):
                     ],
             'layout' :go.Layout(
                     autosize=True,
+                     #height=400,
                     title="Top 10 Compagnies in Air",
                     yaxis= dict(
                     tickangle = -25,
