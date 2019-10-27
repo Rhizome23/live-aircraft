@@ -55,20 +55,23 @@ body = dbc.Container(
             dbc.Col(
                     [ ### debut list col 1
                             dbc.Card(
-                                    [dbc.CardBody(    
-                                            dcc.Graph(id='top-compagnies'),
-                                    )],
-                                    className="mt-3 mb-1 h-50",
-                                    ),
+                                    [dbc.CardBody(html.P(id="actual-time", className="card-text text-time text-center")),
+                                     ],
+                                     color="primary",inverse=True, className="mt-3 mb-1"
+                                     ),
                             dbc.Card(
-                                    [dbc.CardBody(
-                                            dcc.Graph(id='top-origin-countries'),
+                                    [dbc.CardBody(html.P(id="quantity-flight", className="card-text text-center")),
+                                     ],color="primary",inverse=True, className="mt-3 mb-1",
+                                     ),
+                            dbc.Card(
+                                    [dbc.CardBody(html.P(id="hover-data")
                                     )],
-                                    className="mt-3 mb-1 h-50"
+                                    className="mt-3 mb-1",
                                     ),
                             
+                            
                     ], ### fin list col 1
-                    className="col-4"
+                    className="col-4 d-flex flex-column"
                     ),
             ######### end col 1        
             ######### col 2
@@ -76,7 +79,12 @@ body = dbc.Container(
                     [ ### debut list col 2
                          # Hidden div inside the app that stores the intermediate value
                          html.Div(id='intermediate-value', style={'display': 'none'}),
-                         html.H2("Graph"),
+                          dbc.Card(
+                                    [dbc.CardBody(html.P("texte" , className="card-text text-time text-center")),
+                                     ],
+                                     color="primary",inverse=True, className="mt-3 mb-1"
+                                     ),
+                         #html.H2("Graph"),
                          html.P("Filter by area :", className="control_label"),
                                     dcc.Dropdown(id='bbox-area',
                                     options=[
@@ -97,23 +105,18 @@ body = dbc.Container(
                          dbc.Row(
                                     [
                                         dbc.Col(dbc.Card(
-                                                [dbc.CardBody(html.P(id="actual-time", className="card-text text-time text-center")),
+                                                [dbc.CardBody(
+                                                         dcc.Graph(id='top-compagnies')
+                                                         ),
                                                 ],color="primary",inverse=True, )),
                                         dbc.Col(dbc.Card(
-                                                [dbc.CardBody(html.P(id="quantity-flight", className="card-text text-center")),
+                                                [dbc.CardBody(dcc.Graph(id='top-origin-countries')
+                                                        ),
                                                 ],color="primary",inverse=True)),
                                        
                                     ]
                                 ),
-                        ############### ligne 3 dans col de droite        
-                        dbc.Row(
-                                    [
-                                        dbc.Col(dbc.Card(
-                                                [dbc.CardBody(html.P(id='hover-data')),
-                                                ], color='primary', inverse=True)),
-                                     ], className="mt-3"
-
-                                ),
+                       
                          
                             
                     ], ### fin list col 2
@@ -131,7 +134,7 @@ body = dbc.Container(
 
 
 app = dash.Dash(__name__,external_stylesheets=external_stylesheets)
-app.layout = html.Div([navbar,body])
+app.layout = html.Div([body])
 
 
 ### Sharing data between callback
@@ -149,6 +152,11 @@ def update_main_dataframe(n, value):
     Output('hover-data', 'children'),
     [Input('live-update-graph', 'hoverData')])
 def display_hover_data(hoverData):
+    #try:
+    #    list_value= hoverData.get('points')
+    #    return list_value
+    #except:
+    #    pass
     return json.dumps(hoverData, indent=2)
 
 
@@ -158,7 +166,7 @@ def display_hover_data(hoverData):
 def update_actual_time(n):
     heure = datetime.today().time().strftime('%H:%M:%S')
     return [
-        html.P(heure,className="card-text"),
+        html.P("Time : "+heure,className="card-text"),
             ]
 
 ########## Airlines filter dropdown ############
