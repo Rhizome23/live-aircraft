@@ -64,7 +64,7 @@ body = dbc.Container(
                                      ],color="primary",inverse=True, className="mt-3 mb-1",
                                      ),
                             dbc.Card(
-                                    [dbc.CardBody(html.P(id="hover-data")
+                                    [dbc.CardBody(dcc.Markdown(id="hover-data")
                                     )],
                                     className="mt-3 mb-1",
                                     ),
@@ -152,12 +152,16 @@ def update_main_dataframe(n, value):
     Output('hover-data', 'children'),
     [Input('live-update-graph', 'hoverData')])
 def display_hover_data(hoverData):
-    #try:
-    #    list_value= hoverData.get('points')
-    #    return list_value
-    #except:
-    #    pass
-    return json.dumps(hoverData, indent=2)
+    try:
+            hover_string = hoverData['points'][0]['hovertext']
+            print(hover_string)
+            liste=hover_string.split("<br>")
+            print(liste)
+            x='{}'.format(liste)
+            return x
+    except:
+        pass
+    #return json.dumps(hoverData, indent=2)
 
 
 ##########  Show time ######################
@@ -217,12 +221,13 @@ def update_graph_live(df_area, airline):
             lat=df['Lat'],
             lon=df['Long'],
             mode='markers+text',
+            customdata = df['Airlines_name']+'valeurB',
             textfont=dict(
                     size=10,
                     color="black"),
             marker=dict(size=5, opacity=0.8),
             text = df['Airlines_name'],
-            hovertext="Compagny : "+ df['Airlines_name'] + '<br>Icao24 : '+df['Icao24'] 
+            hovertext="Compagny : "+ df['Airlines_name'] + '<br> Icao24 : '+df['Icao24'] 
             +"<br>Altitude en m: " + df['Altitude'].astype(str) +"<br>From :"+ df['From']+ '<br>Vitesse km/h :' +df['Velocity'].astype(str),
             showlegend=False,
             )],
