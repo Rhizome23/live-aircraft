@@ -6,7 +6,6 @@ Created on Tue Oct 15 21:08:21 2019
 """
 from datetime import datetime
 import dash
-import json
 import pandas as pd
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
@@ -17,10 +16,7 @@ import plotly.graph_objs as go
 import data_source
 #df = pd.read_csv('donnees.csv')
 
-# https://dash.plot.ly/external-resources
-#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
+#PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 mapbox_access_token ="pk.eyJ1Ijoicmhpem9tZTIzIiwiYSI6ImNqenlpdDM0OTB2aGkzaGxhZ3N3azAzMjkifQ.R1F3laWNtrJyCpY2vTwH7w"
 
 external_stylesheets=[dbc.themes.BOOTSTRAP, "/assets/css/bootstrap.css","/assets/css/bootstrap.min.css","/assets/css/style2.css"]
@@ -56,17 +52,18 @@ body = dbc.Container(
                     [ ### debut list col 1
                             dbc.Card(
                                     [dbc.CardBody(html.P(id="actual-time", className="card-text text-time text-center")),
-                                     ],
-                                     color="primary",inverse=True, className="mt-3 mb-1"
+                                     ], color="primary",inverse=True, className="mt-3 mb-1"
                                      ),
                             dbc.Card(
                                     [dbc.CardBody(html.P(id="quantity-flight", className="card-text text-center")),
                                      ],color="primary",inverse=True, className="mt-3 mb-1",
                                      ),
                             dbc.Card(
-                                    [dbc.CardBody(dcc.Markdown(id="hover-data")
-                                    )],
-                                    className="mt-3 mb-1",
+                                    [
+                                            dbc.CardHeader("Aircraft data : ", className="text-center text-time"),
+                                            dbc.CardBody(dcc.Markdown(id="hover-data", className="card-text"),
+                                            ),
+                                    ], color="primary",inverse=True, className="mt-3 mb-1",
                                     ),
                             
                             
@@ -80,11 +77,10 @@ body = dbc.Container(
                          # Hidden div inside the app that stores the intermediate value
                          html.Div(id='intermediate-value', style={'display': 'none'}),
                           dbc.Card(
-                                    [dbc.CardBody(html.P("texte" , className="card-text text-time text-center")),
+                                    [dbc.CardBody(html.P("Live Aircrafts" , className="card-text text-time text-center")),
                                      ],
                                      color="primary",inverse=True, className="mt-3 mb-1"
                                      ),
-                         #html.H2("Graph"),
                          html.P("Filter by area :", className="control_label"),
                                     dcc.Dropdown(id='bbox-area',
                                     options=[
@@ -156,12 +152,18 @@ def display_hover_data(hoverData):
             hover_string = hoverData['points'][0]['hovertext']
             print(hover_string)
             liste=hover_string.split("<br>")
-            print(liste)
-            x='{}'.format(liste)
+            x ="""
+            
+                + {} 
+                + {}
+                + {} 
+                + {}
+                + {}
+                   
+            """.format(liste[0],liste[1],liste[2],liste[3],liste[4])            
             return x
     except:
         pass
-    #return json.dumps(hoverData, indent=2)
 
 
 ##########  Show time ######################
@@ -221,15 +223,14 @@ def update_graph_live(df_area, airline):
             lat=df['Lat'],
             lon=df['Long'],
             mode='markers+text',
-            customdata = df['Airlines_name']+'valeurB',
             textfont=dict(
                     size=10,
                     color="black"),
             marker=dict(size=5, opacity=0.8),
             text = df['Airlines_name'],
             hovertext="Compagny : "+ df['Airlines_name'] + '<br> Icao24 : '+df['Icao24'] 
-            +"<br>Altitude en m: " + df['Altitude'].astype(str) +"<br>From :"+ df['From']+ '<br>Vitesse km/h :' +df['Velocity'].astype(str),
-            showlegend=False,
+            +"<br>Altitude en m : " + df['Altitude'].astype(str) +"<br>From : "+ df['From']+ '<br>Vitesse km/h : ' +df['Velocity'].astype(str),
+            showlegend=True,
             )],
         'layout':go.Layout(
             #autosize=False,

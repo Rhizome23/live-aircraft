@@ -50,7 +50,7 @@ def get_flight_data(area):
 
    #print(flight_df.head())
    end = time.time()
-   print("temps d'exécution en sec :", int(end-start))
+   #print("temps d'exécution en sec :", int(end-start))
    
    return flight_df
 
