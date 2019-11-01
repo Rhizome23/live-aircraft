@@ -7,10 +7,10 @@ import requests
 def get_flight_data(area):
    start = time.time()
    # bboxFrance= [min_latitude, max_latitude, min_longitude, max_longitude]
-   bboxdict = {'FRANCE': [41, 52, -5.5, 10], 'EUROPE': [37, 65, -10, 25], 'NA': [26, 60, -125, -63]}
+   bboxdict = {'FRANCE': [41, 52, -5.5, 10], 'EUROPE': [36, 70, -14, 47], 'NA': [12, 71, -168, -60],
+               'SA':[-56,14,-85,-31] ,'ASIA':[-15,60, 72,174],  'AF':[-42,37,-19.4,50.2]}
    if area in bboxdict:
        bbox = bboxdict[area]
-
    t = int(time.time())
 
    #  fly data
