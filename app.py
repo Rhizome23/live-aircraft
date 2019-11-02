@@ -14,9 +14,7 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 
 import data_source
-#df = pd.read_csv('donnees.csv')
 
-#PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 mapbox_access_token ="pk.eyJ1Ijoicmhpem9tZTIzIiwiYSI6ImNqenlpdDM0OTB2aGkzaGxhZ3N3azAzMjkifQ.R1F3laWNtrJyCpY2vTwH7w"
 
 external_stylesheets=[dbc.themes.BOOTSTRAP, "/assets/css/bootstrap.css","/assets/css/bootstrap.min.css","/assets/css/style2.css"]
@@ -151,7 +149,6 @@ def update_main_dataframe(n, value):
 def display_hover_data(hoverData):
     try:
             hover_string = hoverData['points'][0]['hovertext']
-            print(hover_string)
             liste=hover_string.split("<br>")
             x ="""
             
@@ -218,7 +215,7 @@ def update_graph_live(df_area, airline):
 
     quantity= html.P("Aircrafts : "+str(len(df)),className="card-text text-time")
 
-    print(df.head())
+    #print(df.head())
     figure = {
         'data': [go.Scattermapbox(
             lat=df['Lat'],
