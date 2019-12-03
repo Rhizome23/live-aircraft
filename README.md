@@ -6,5 +6,4 @@ You can see the app running here (Heroku free hosting need a few time to wake up
 ](URL)
 
 Capture screen : 
-![screen_capture1.png](screen_capture1.png)
-![screen_capture2.png](screen_capture2.png)
+![capture.jpg](capture.jpg)
